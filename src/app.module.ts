@@ -6,6 +6,9 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { dataSourceOptions } from './config/db/data-source.config';
 import { UserModule } from './user/user.module';
+import { RoleModule } from './role/role.module';
+import { RoleFeatureModule } from './role-feature/role-feature.module';
+import { FeatureModule } from './feature/feature.module';
 
 @Module({
   imports: [
@@ -15,6 +18,9 @@ import { UserModule } from './user/user.module';
     }),
     UserModule,
     AuthModule,
+    RoleModule,
+    RoleFeatureModule,
+    FeatureModule,
   ],
   controllers: [AppController],
   providers: [AppService],
