@@ -1,13 +1,13 @@
 import { Role } from 'src/role/entities/role.entity';
 import {
-    Column,
-    CreateDateColumn,
-    DeleteDateColumn,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
 
 @Entity()
@@ -29,12 +29,6 @@ export class User {
 
   @Column({ nullable: true })
   password_reset_token: string | null;
-
-  @Column({ nullable: true })
-  profile_pic_id: number;
-
-  @Column({ nullable: true })
-  profile_picture_url: string | null;
 
   @CreateDateColumn()
   created_at: Date;
