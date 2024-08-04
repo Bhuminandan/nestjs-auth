@@ -7,7 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -30,6 +30,9 @@ export class User {
   @Column({ nullable: true })
   password_reset_token: string | null;
 
+  @Column({ nullable: true })
+  last_login: string | null;
+
   @CreateDateColumn()
   created_at: Date;
 
@@ -42,5 +45,4 @@ export class User {
   @ManyToOne(() => Role, (role) => role.user)
   @JoinColumn({ name: 'role_id' })
   role: Role;
-
 }

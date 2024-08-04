@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -17,6 +18,36 @@ export class UserService {
 
   async findUsers(_options: FindManyOptions<User>) {
     return this.userRepository.find(_options);
+  }
+
+  async validateUser(_email: string, _password: string): Promise<User> | null {
+    const user = await this.userRepository.findOne({
+      relations: { role: true },
+      where: { email: _email },
+    });
+
+    if (!user) {
+      throw new BadRequestException({
+        is_success: false,
+        message: 'User not found',
+      });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(_password, user.password);
+
+    if (user && isPasswordMatch) {
+      return user;
+    }
+
+    return null;
+  }
+
+  async updateLastLogin(_userid: number) {
+    const lastLogin = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
+    await this.userRepository.update(
+      { id: _userid },
+      { last_login: lastLogin },
+    );
   }
 
   create(createUserDto: CreateUserDto) {
